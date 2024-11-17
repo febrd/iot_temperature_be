@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model modbus {
+  id          Int      @id @default(autoincrement())
+  timestamp   DateTime @db.DateTime(0)
+  temperature Float
+  humidity    Float
+
+  @@map("modbus_data")
+}
