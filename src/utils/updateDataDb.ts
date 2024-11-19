@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as mysql from 'mysql2/promise';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
-import { checkHighTemperature, checkHighHumidity } from '../routes/sensorRoutes'; // Pastikan path sesuai dengan file sensorRoutes Anda
+import { checkHighTemperature, checkHighHumidity } from '../routes/sensorRoutes';
 
 dotenv.config({ path: path.join(__dirname, '../../', '.env') });
 
@@ -43,7 +43,12 @@ const fetchData = async () => {
   try {
     const response = await axios.get('http://localhost:3000/api/sensor/all');
     const sensorData = response.data[0];
-    const { temperature, humidity, timestamp } = sensorData;      
+    const 
+    { 
+      temperature, 
+      humidity, 
+      timestamp 
+    } = sensorData;      
     const isNewData =  await insertSensorData(temperature, humidity, timestamp);
     if (isNewData) {
       await checkHighTemperature();

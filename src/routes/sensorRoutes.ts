@@ -1,6 +1,5 @@
 import { Hono, Context, Next } from 'hono';
 import { fetchDataFromFirebase } from '../utils/fetchData';
-import { getFilteredData } from '../utils/filterData';
 import { hasHighTemperature, hasHighHumidity, sendCombinedAlerts, AlertData } from '../utils/alertData';
 import { getTargetGroupId } from '../utils/whatsappGateway';
 import * as dotenv from 'dotenv';
@@ -11,7 +10,7 @@ dotenv.config({ path: path.join(__dirname, '../../', '.env') });
 const sensorRoutes = new Hono();
 
 const corsMiddleware = async (c: Context, next: Next) => {
-  const allowOrigin = process.env.ALLOW_ORIGIN || 'http://103.76.120.81:3001'; 
+  const allowOrigin = process.env.ALLOW_ORIGIN || 'http://localhost:3001'; 
   c.res.headers.append('Access-Control-Allow-Origin', allowOrigin);
   c.res.headers.append('Access-Control-Allow-Methods', 'GET, OPTIONS');
   c.res.headers.append('Access-Control-Allow-Headers', 'Content-Type');
@@ -30,26 +29,6 @@ sensorRoutes.get('/all', async (c) => {
   return c.json(data);
 });
 
-sensorRoutes.get('/filter/range/:range', async (c) => {
-  const { range } = c.req.param();
-  const data = await fetchDataFromFirebase();
-  const filteredData = getFilteredData(data, range);
-  return c.json(filteredData);
-});
-
-sensorRoutes.get('/filter/temp/:temp', async (c) => {
-  const { temp } = c.req.param();
-  const data = await fetchDataFromFirebase();
-  const filteredData = getFilteredData(data, 'realtime', temp);
-  return c.json(filteredData);
-});
-
-sensorRoutes.get('/filter/humid/:humidity', async (c) => {
-  const { humidity } = c.req.param();
-  const data = await fetchDataFromFirebase();
-  const filteredData = getFilteredData(data, 'realtime', undefined, humidity);
-  return c.json(filteredData);
-});
 
 sensorRoutes.get('/check/high-temperature', async (c) => {
   const result = await checkHighTemperature();

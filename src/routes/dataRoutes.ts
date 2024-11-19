@@ -15,7 +15,7 @@ const dbConfig = {
 const dataRoutes = new Hono();
 
 const corsMiddleware = async (c: Context, next: Next) => {
-  const allowOrigin = process.env.ALLOW_ORIGIN || 'http://103.76.120.81:3001';
+  const allowOrigin = process.env.ALLOW_ORIGIN || 'http://localhost:3001';
   c.res.headers.append('Access-Control-Allow-Origin', allowOrigin);
   c.res.headers.append('Access-Control-Allow-Methods', 'GET, OPTIONS');
   c.res.headers.append('Access-Control-Allow-Headers', 'Content-Type');

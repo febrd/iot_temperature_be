@@ -76,7 +76,7 @@ const getWhatsAppGroups = async (token: string) => {
         }
 
         console.log('Successful response:', data);
-        return data; // Ensure that data is an array of groups
+        return data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error('Error message:', error.response?.data || error.message);
@@ -88,7 +88,7 @@ const getWhatsAppGroups = async (token: string) => {
 
 const findGroupByName = (groups: any[], targetName: string) => {
     const foundGroup = groups.find(group => group.name === targetName);
-    if (foundGroup) {
+    if (foundGroup) { 
         return {
             id: foundGroup.id,
             name: foundGroup.name,
@@ -97,6 +97,7 @@ const findGroupByName = (groups: any[], targetName: string) => {
     console.error(`Group with name "${targetName}" not found.`);
     return null;
 };
+
 
 
 const getTargetGroupId = async () => {
@@ -113,7 +114,7 @@ const getTargetGroupId = async () => {
 
     if (!TARGET_WHATSAPP_GROUP) {
         console.error('TARGET_WHATSAPP_GROUP is not defined.');
-        return null; // or throw new Error('TARGET_WHATSAPP_GROUP is not defined');
+        return null; 
     }
 
     const targetGroup = findGroupByName(groups, TARGET_WHATSAPP_GROUP);
